@@ -80,16 +80,14 @@ body {
     border-radius: 15px;
 }
 .homebutton:hover:not(.currentbutton),
-.gallerybutton:hover:not(.currentbutton),
-.tablebutton:hover:not(.currentbutton) {
+.gallerybutton:hover:not(.currentbutton){
     background-color: rgb(45, 180, 180);
     cursor: pointer;
     box-shadow: -2px 2px rgba(0, 21, 21, 0.877);
     transform: scale(1) translateY(-2px);
 }
 .homebutton:active:not(.currentbutton),
-.gallerybutton:active:not(.currentbutton),
-.tablebutton:active:not(.currentbutton) {
+.gallerybutton:active:not(.currentbutton){
     background-color: rgb(45, 180, 180);
     transform: scale(1) translateY(0px);
     box-shadow: 0px 0px rgba(0, 21, 21, 0.877);
