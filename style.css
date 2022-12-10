@@ -25,25 +25,26 @@ body {
     background-color: rgb(20, 44, 42);
     margin: 0%;
     padding-top: 65px;
-    padding-left:15px;
-    padding-right:15px;
-    padding-bottom:15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
     justify-content: center;
     align-items: center;
     justify-items: center;
 }
 .navbar {
-    left:0;
+    left: 0;
     overflow: hidden;
     position: fixed;
     top: 0;
-    height: 3.3em;
+    height: 55px;
     width: 100%;
     background: rgb(1, 33, 33);
     display: flex;
     align-items: center;
 }
 .homebutton {
+    border: solid;
     float: left;
     background-color: rgb(42, 151, 151);
     font-size: medium;
@@ -53,9 +54,10 @@ body {
     height: 30px;
     margin-left: 10px;
     margin-right: 5px;
-    border-radius: 15px;
+    border-radius: 999px;
 }
 .gallerybutton {
+    border: solid;
     float: left;
     background-color: rgb(42, 151, 151);
     font-size: medium;
@@ -65,11 +67,12 @@ body {
     height: 30px;
     margin-left: 5px;
     margin-right: 5px;
-    border-radius: 15px;
+    border-radius: 999px;
 }
 .tablebutton {
+    border: solid;
     float: left;
-    background-color: rgb(100, 100, 100);
+    background-color: rgb(42, 151, 151);
     font-size: medium;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-weight: 600;
@@ -77,19 +80,19 @@ body {
     height: 30px;
     margin-left: 5px;
     margin-right: 10px;
-    border-radius: 15px;
+    border-radius: 999px;
 }
 .homebutton:hover:not(.currentbutton),
-.gallerybutton:hover:not(.currentbutton)/*,
-.tablebutton:hover:not(.currentbutton) */{
+.gallerybutton:hover:not(.currentbutton),
+.tablebutton:hover:not(.currentbutton) {
     background-color: rgb(45, 180, 180);
     cursor: pointer;
     box-shadow: -2px 2px rgba(0, 21, 21, 0.877);
     transform: scale(1) translateY(-2px);
 }
 .homebutton:active:not(.currentbutton),
-.gallerybutton:active:not(.currentbutton)/*,
-.tablebutton:active:not(.currentbutton) */{
+.gallerybutton:active:not(.currentbutton),
+.tablebutton:active:not(.currentbutton) {
     background-color: rgb(45, 180, 180);
     transform: scale(1) translateY(0px);
     box-shadow: 0px 0px rgba(0, 21, 21, 0.877);
@@ -139,15 +142,48 @@ div.gallerypic img {
     float: left;
     width: 32.9999999%;
 }
-@media (max-width: 70em){
+@media (max-width: 70em) {
     .responsive {
         width: 49.99999%;
         padding: 15px;
     }
 }
-@media (max-width: 35em){
+@media (max-width: 35em) {
     .responsive {
         width: 100%;
         padding: 15px;
+    }
+}
+@media (pointer: coarse) {
+    .responsive {
+        width: 100%;
+        padding: 25px;
+        padding-left: 45px;
+        padding-right: 45px;
+    }
+    .navbar {
+        height: 130px;
+        padding-left: 20px;
+    }
+    [class*="button"] {
+        height: 60px;
+        font-size: xx-large;
+    }
+    .homebutton {
+        width: 116px;
+    }
+    .gallerybutton {
+        width: 170px;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    .tablebutton {
+        width: 180px;
+    }
+    body {
+        padding-top: 145px;
+    }
+    .currentbutton span {
+        font-size: xx-large;
     }
 }
