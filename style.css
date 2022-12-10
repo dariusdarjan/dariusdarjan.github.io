@@ -24,19 +24,17 @@
 body {
     background-color: rgb(20, 44, 42);
     margin: 0%;
-    padding-top: 65px;
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-bottom: 15px;
+    padding: 65px 15px 15px 15px;
     justify-content: center;
     align-items: center;
     justify-items: center;
 }
+
 .navbar {
+    top: 0;
     left: 0;
     overflow: hidden;
     position: fixed;
-    top: 0;
     height: 55px;
     width: 100%;
     background: rgb(1, 33, 33);
@@ -107,6 +105,7 @@ body {
     color: rgb(30, 220, 220);
     font-size: large;
 }
+
 .txtbox {
     font-family: "Fredoka One", sans-serif;
     color: rgb(214, 214, 214);
@@ -117,14 +116,11 @@ body {
     padding: 13px;
     text-align: center;
     margin-top: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     border-radius: 40px;
     border-style: solid;
-    border-width: 1px;
+    border: none;
     background-color: rgba(0, 0, 0, 0.137);
-}
-.txtbox h2 {
-    color: rgb(215, 209, 183);
 }
 .txtbox p {
     color: rgb(205, 200, 180);
@@ -132,6 +128,7 @@ body {
 .txtbox ul {
     color: rgb(205, 200, 180);
 }
+
 div.gallerypic img {
     border-radius: 40px;
     width: 100%;
@@ -142,6 +139,42 @@ div.gallerypic img {
     float: left;
     width: 32.9999999%;
 }
+
+.tablecontainer {
+    background-color: rgba(0, 0, 0, 0.137);
+    color: rgb(165, 160, 140);
+    font-family: "Fredoka One", sans-serif;
+    font-size: large;
+    text-align: center;
+    padding: 40px 30px 10px 30px;
+    width: 90%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 40px;
+    border-style: solid;
+    border: none;
+    margin: auto;
+    margin-top: 20px;
+}
+.tablecontainer td {
+    width: 9999px;
+}
+.lun {
+    color: rgb(172, 157, 238);
+}
+.mar {
+    color: rgb(126, 198, 253);
+}
+.mie {
+    color: rgb(188, 221, 150);
+}
+.joi {
+    color: rgb(255, 232, 156);
+}
+.vin {
+    color: rgb(255, 190, 180);
+}
+
 @media (max-width: 70em) {
     .responsive {
         width: 49.99999%;
@@ -155,35 +188,52 @@ div.gallerypic img {
     }
 }
 @media (pointer: coarse) {
+    body {
+        padding-top: 145px;
+    }
+    .navbar {
+        height: 120px;
+        padding-left: 20px;
+    }
+    [class*="button"] {
+        height: 75px;
+        font-size: xx-large;
+    }
+    .homebutton {
+        width: 145px;
+    }
+    .gallerybutton {
+        width: 213px;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    .tablebutton {
+        width: 225px;
+    }
+    .currentbutton span {
+        font-size: xx-large;
+    }
+    .txtbox {
+        margin-top: 40px;
+        margin-bottom: 60px;
+        border-radius: 60px;
+    }
+    div.gallerypic img {
+        border-radius: 60px;
+    }
     .responsive {
         width: 100%;
         padding: 25px;
         padding-left: 45px;
         padding-right: 45px;
     }
-    .navbar {
-        height: 130px;
-        padding-left: 20px;
-    }
-    [class*="button"] {
-        height: 60px;
+    .tablecontainer {
+        margin-top: 40px;
         font-size: xx-large;
+        padding: 60px 10px 50px 10px;
+        border-radius: 60px;
     }
-    .homebutton {
-        width: 116px;
-    }
-    .gallerybutton {
-        width: 170px;
-        margin-left: 20px;
-        margin-right: 20px;
-    }
-    .tablebutton {
-        width: 180px;
-    }
-    body {
-        padding-top: 145px;
-    }
-    .currentbutton span {
-        font-size: xx-large;
+    .tablecontainer tr {
+        height: 100px;
     }
 }
