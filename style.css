@@ -115,7 +115,7 @@ body {
 .txtbox {
     font-family: "Fredoka One", sans-serif;
     color: rgb(214, 214, 214);
-    font-size: x-large;
+    font-size: large;
     margin: auto;
     min-width: 50%;
     max-width: 85%;
@@ -228,7 +228,7 @@ div.gallerypic img {
         font-size: xx-large;
     }
     .txtbox p {
-        font-size: xx-large;
+        font-size: 1.5em;
     }
     .txtbox ul {
         font-size: xx-large;
