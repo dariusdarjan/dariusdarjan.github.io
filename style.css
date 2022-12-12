@@ -168,14 +168,17 @@ div.gallerypic img {
 }
 .tablecontainer td {
     width: 9999px;
+    margin: 10em;
 }
-.lun,
+.tablecontainer .lun,
 .mar,
 .mie,
 .joi,
 .vin {
     font-family: "Open Sans";
     font-size: x-large;
+    background-color: rgba(0, 86, 86, 0.244);
+    border-radius: 1em;
 }
 .lun {
     color: rgb(172, 157, 238);
@@ -264,9 +267,6 @@ div.gallerypic img {
     .joi,
     .vin {
         font-size: 1.6em;
-        background-color: rgba(0, 86, 86, 0.244);
-        border-radius: 60px;
-        margin: 100px;
     }
     .tablecontainer tr {
         height: 100px;
