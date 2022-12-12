@@ -175,6 +175,7 @@ div.gallerypic img {
 .joi,
 .vin {
     font-family: "Open Sans";
+    font-size: x-large;
 }
 .lun {
     color: rgb(172, 157, 238);
@@ -256,6 +257,16 @@ div.gallerypic img {
         font-size: xx-large;
         padding: 60px 10px 50px 10px;
         border-radius: 60px;
+    }
+    .tablecontainer .lun,
+    .mar,
+    .mie,
+    .joi,
+    .vin {
+        font-size: 1.6em;
+        background-color: rgba(0, 86, 86, 0.244);
+        border-radius: 60px;
+        margin: 100px;
     }
     .tablecontainer tr {
         height: 100px;
