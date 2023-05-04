@@ -41,6 +41,10 @@ body {
     display: flex;
     align-items: center;
 }
+.logo {
+    margin-left: 5px;
+    height: 55px;
+}
 .homebutton {
     border: solid;
     border-color: black;
@@ -52,7 +56,7 @@ body {
     font-weight: 600;
     width: 58px;
     height: 30px;
-    margin-left: 10px;
+    margin-left: 5px;
     margin-right: 5px;
     border-radius: 999px;
 }
@@ -83,12 +87,28 @@ body {
     width: 90px;
     height: 30px;
     margin-left: 5px;
-    margin-right: 10px;
+    margin-right: 5px;
+    border-radius: 999px;
+}
+.quizbutton {
+    border: solid;
+    border-color: black;
+    color: black;
+    float: left;
+    background-color: rgb(42, 151, 151);
+    font-size: medium;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 600;
+    width: 83px;
+    height: 30px;
+    margin-left: 5px;
+    margin-right: 5px;
     border-radius: 999px;
 }
 .homebutton:hover:not(.currentbutton),
 .gallerybutton:hover:not(.currentbutton),
-.tablebutton:hover:not(.currentbutton) {
+.tablebutton:hover:not(.currentbutton),
+.quizbutton:hover:not(.currentbutton) {
     background-color: rgb(45, 180, 180);
     cursor: pointer;
     box-shadow: -2px 2px rgba(0, 21, 21, 0.877);
@@ -96,7 +116,8 @@ body {
 }
 .homebutton:active:not(.currentbutton),
 .gallerybutton:active:not(.currentbutton),
-.tablebutton:active:not(.currentbutton) {
+.tablebutton:active:not(.currentbutton),
+.quizbutton:active:not(.currentbutton) {
     background-color: rgb(45, 180, 180);
     transform: scale(1) translateY(0px);
     box-shadow: 0px 0px rgba(0, 21, 21, 0.877);
@@ -150,7 +171,8 @@ div.gallerypic img {
     width: 32.9999999%;
 }
 
-.tablecontainer {
+.tablecontainer,
+.quizcontainer {
     background-color: rgba(0, 0, 0, 0.137);
     color: rgb(165, 160, 140);
     font-family: "Fredoka One", sans-serif;
@@ -231,7 +253,7 @@ div.gallerypic img {
     .tablebutton {
         width: 245px;
     }
-    .currentbutton span {
+    !!!!de pus si quizbuttonu .currentbutton span {
         font-size: 1.1em;
     }
     .txtbox {
