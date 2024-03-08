@@ -1,0 +1,20 @@
+{
+    "short_name": "Decontare",
+    "name": "IRC Decontare",
+    "icons": [
+      {
+        "src": "/manifest_images/logo_irc_192x192.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "/manifest_images/logo_irc_512x512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ],
+    "start_url": "dariusdarjan.github.io",
+    "background_color": "#ffffff",
+    "display": "fullscreen",
+    "description": "Aplicatie decontare IRC"
+}
