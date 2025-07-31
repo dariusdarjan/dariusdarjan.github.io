@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⛪ Bisericuța Noastră - The Original</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #8B4513 0%, #D2B48C 50%, #F5E6D3 100%);
+            min-height: 100vh;
+            color: #3C2A1E;
+            overflow-x: hidden;
+        }
+        
+        .church-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(139,69,19,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(210,180,140,0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(245,230,211,0.1) 0%, transparent 50%);
+            z-index: -2;
+        }
+        
+        .stained-glass {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(45deg, rgba(139,69,19,0.08) 0%, transparent 25%),
+                linear-gradient(-45deg, rgba(160,82,45,0.1) 0%, transparent 25%),
+                linear-gradient(90deg, rgba(210,180,140,0.08) 0%, transparent 50%);
+            z-index: -1;
+            animation: shimmer 8s ease-in-out infinite alternate;
+        }
+        
+        @keyframes shimmer {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.7; }
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            background: rgba(245,230,211,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(60,42,30,0.15);
+            border: 1px solid rgba(210,180,140,0.3);
+        }
+        
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: #3C2A1E;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(139,69,19,0.1);
+        }
+        
+        .header .subtitle {
+            font-size: 1.2rem;
+            color: #8B4513;
+            font-weight: 300;
+            margin-bottom: 1rem;
+        }
+        
+        .date-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #8B4513, #A0522D);
+            color: #F5E6D3;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(139,69,19,0.3);
+        }
+        
+        .card {
+            background: rgba(245,230,211,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 40px rgba(60,42,30,0.15);
+            border: 1px solid rgba(210,180,140,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #8B4513, #A0522D, #8B4513);
+            background-size: 200% 100%;
+            animation: gradient-flow 3s linear infinite;
+        }
+        
+        @keyframes gradient-flow {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        .story-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: #2d3748;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .story-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #4a5568;
+            margin-bottom: 1.5rem;
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 0.2rem 0.4rem;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+        
+        .rules-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: #2d3748;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .rule-item {
+            background: rgba(210,180,140,0.4);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 5px solid #8B4513;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .rule-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(60,42,30,0.15);
+        }
+        
+        .rule-number {
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: linear-gradient(45deg, #8B4513, #A0522D);
+            color: #F5E6D3;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .rule-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #5D4037;
+            margin-top: 0.5rem;
+        }
+        
+        .warning-box {
+            background: linear-gradient(135deg, #ff8a80, #ff5722);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            text-align: center;
+            font-weight: 500;
+            box-shadow: 0 10px 25px rgba(255,87,34,0.3);
+        }
+        
+        .emoji-float {
+            position: fixed;
+            font-size: 2rem;
+            opacity: 0.7;
+            animation: float 6s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .emoji-float:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .emoji-float:nth-child(2) { top: 20%; right: 15%; animation-delay: 1s; }
+        .emoji-float:nth-child(3) { bottom: 30%; left: 20%; animation-delay: 2s; }
+        .emoji-float:nth-child(4) { bottom: 20%; right: 10%; animation-delay: 3s; }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            color: white;
+            font-weight: 300;
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 1rem; }
+            .header h1 { font-size: 2rem; }
+            .card { padding: 1.5rem; }
+            .story-section h2, .rules-section h2 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="church-bg"></div>
+    <div class="stained-glass"></div>
+    
+    <div class="emoji-float">⛪</div>
+    <div class="emoji-float">🕊️</div>
+    <div class="emoji-float">📜</div>
+    <div class="emoji-float">✨</div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>⛪ Bisericuța Noastră</h1>
+            <p class="subtitle">The Original & Authentic Community 🏛️</p>
+            <div class="date-badge">📅 Fondată: 31 Iulie 2025</div>
+        </div>
+        
+        <div class="card story-section">
+            <h2>🤔 Salut, nou venit!</h2>
+            <div class="story-text">
+                Poate tocmai ai fost adăugat în acest grup și nu înțelegi încă ce se întâmplă, sau poate doar revizitezi acest link pentru a-ți împrospăta memoria. Oricare ar fi cazul, aici ai toate răspunsurile! Dacă mai doriți să adăugăm ceva, îmi spuneți.
+            </div>
+        </div>
+        
+        <div class="card story-section">
+            <h2>📖 Povestea Noastră</h2>
+            <div class="story-text">
+                Totul a început într-o bună zi <span class="highlight">(31 Iulie 2025)</span> când Andrei și Armin au decis să creeze o așa-zisă bisericuță pentru că <span class="highlight">bisericuța ORIGINALĂ</span> (din care voi acum faceți parte) nu voia să le zică tot ce s-a discutat la ieșirea din ziua anterioară (sărbătorirea zilei lui Cristi, dar fără Cristi). 
+            </div>
+            <div class="story-text">
+                Apoi bisericuța noastră a pus stăpânire pe situație și a început să recruteze pe toată lumea care nu va fi lăsată să cadă în tirania bisericuței FALSE creată de Armin și Andrei.
+            </div>
+            
+            <div class="warning-box">
+                🚨 ATENȚIE! Ei au planuri de extindere și de monopolizare a conjuncturilor sociale chiar din jurul nostru, așa că stați cu ochii în patru și nu le cădeți în plasă, nici voi nici cei dragi vouă!! 🚨
+            </div>
+        </div>
+        
+        <div class="card rules-section">
+            <h2>📋 Regulile & Obiceiurile Noastre</h2>
+            <p style="text-align: center; margin-bottom: 2rem; font-style: italic; color: #666;">
+                Lista cu obiceiurile și regulile nescrise (acum scrise) ale bisericuței:
+            </p>
+            
+            <div class="rule-item">
+                <div class="rule-number">1</div>
+                <div class="rule-text">
+                    🤫 Bisericuța aduce noi membri cu grijă și restrângere, nu facem reclamă, păstrăm totul pentru noi, nu dăm din casă (/biserica).
+                </div>
+            </div>
+            
+            <div class="rule-item">
+                <div class="rule-number">2</div>
+                <div class="rule-text">
+                    📸 Ocazional primim poze cu un tip pe care îl are Alexandra pe Facebook și îi place să posteze poze dubioase cu picioarele. (sunt mai mulți tipi, este și unul care vizitează TOT ce poate)
+                </div>
+            </div>
+            
+            <div class="rule-item">
+                <div class="rule-number">3</div>
+                <div class="rule-text">
+                    📈 Lista va fi extinsă cât de mult posibil când apar noi tradiții și obiceiuri care trebuie înscrise.
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>✨ Făcut cu dragoste pentru comunitatea noastră autentică ✨</p>
+            <p>🏛️ Stay Original, Stay True 🏛️</p>
+        </div>
+    </div>
+</body>
+</html>
