@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drink Counter</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-main: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --accent: #bb86fc;
+            --beer-color: #fca311;
+            --shot-color: #ef233c;
+            --btn-hover: #333333;
+            --border-radius: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            padding-bottom: 100px; /* Space for FAB */
+        }
+
+        h1 {
+            margin-bottom: 2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 1.5rem;
+            color: var(--text-main);
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 10px;
+        }
+
+        /* Container for the list */
+        #list-container {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Person Card */
+        .person-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            transition: transform 0.2s ease;
+            position: relative;
+        }
+
+        .person-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .person-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .delete-btn {
+            background: transparent;
+            border: none;
+            color: #444;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        
+        .delete-btn:hover {
+            color: #ff4444;
+        }
+
+        /* Counter Rows */
+        .counters-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .counter-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.03);
+            padding: 10px 15px;
+            border-radius: 8px;
+        }
+
+        .counter-label {
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 80px;
+        }
+
+        .beer-icon { color: var(--beer-color); }
+        .shot-icon { color: var(--shot-color); }
+
+        .counter-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .count-display {
+            font-size: 1.2rem;
+            font-weight: bold;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .ctrl-btn {
+            background-color: #333;
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.2s;
+            user-select: none;
+        }
+
+        .ctrl-btn:active { transform: scale(0.95); }
+        .ctrl-btn.plus { background-color: #2e7d32; }
+        .ctrl-btn.minus { background-color: #c62828; }
+        .ctrl-btn:hover { opacity: 0.9; }
+
+        /* Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #000;
+            font-size: 2rem;
+            box-shadow: 0 4px 10px rgba(187, 134, 252, 0.4);
+            cursor: pointer;
+            border: none;
+            transition: transform 0.2s, background-color 0.2s;
+            z-index: 100;
+        }
+
+        .fab:hover {
+            transform: scale(1.1);
+            background-color: #a370db;
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+            backdrop-filter: blur(2px);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* Modal Content */
+        .modal {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+
+        .modal h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .modal input {
+            padding: 12px;
+            background-color: #2d2d2d;
+            border: 1px solid #444;
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .modal input:focus {
+            border-color: var(--accent);
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: opacity 0.2s;
+        }
+
+        .btn-cancel {
+            background-color: transparent;
+            color: var(--text-muted);
+        }
+
+        .btn-confirm {
+            background-color: var(--accent);
+            color: #000;
+        }
+
+        .btn:hover { opacity: 0.8; }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            color: var(--text-muted);
+            margin-top: 50px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Night Out Tracker</h1>
+
+    <div id="list-container">
+        </div>
+
+    <div id="empty-msg" class="empty-state" style="display: none;">
+        No one is drinking yet. Click + to add a friend.
+    </div>
+
+    <button class="fab" onclick="openModal()">+</button>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <h2>Who's drinking?</h2>
+            <input type="text" id="nameInput" placeholder="Enter name..." autocomplete="off">
+            <div class="modal-actions">
+                <button class="btn btn-cancel" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-confirm" onclick="addPerson()">Add</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- State Management ---
+        let people = [];
+        const STORAGE_KEY = 'drink_tracker_v1';
+
+        // Load data on startup
+        function loadData() {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            if (stored) {
+                try {
+                    people = JSON.parse(stored);
+                } catch (e) {
+                    console.error("Failed to parse local storage", e);
+                    people = [];
+                }
+            }
+            render();
+        }
+
+        // Save data to local storage
+        function saveData() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(people));
+        }
+
+        // --- Core Logic ---
+
+        function addPerson() {
+            const input = document.getElementById('nameInput');
+            const name = input.value.trim();
+            
+            if (!name) return;
+
+            const newPerson = {
+                id: Date.now(), // simple unique ID
+                name: name,
+                beers: 0,
+                shots: 0
+            };
+
+            people.push(newPerson);
+            saveData();
+            render();
+            closeModal();
+            input.value = ''; // clear input
+        }
+
+        function removePerson(id) {
+            if(confirm('Remove this person from the list?')) {
+                people = people.filter(p => p.id !== id);
+                saveData();
+                render();
+            }
+        }
+
+        function updateCount(id, type, change) {
+            // Find the person
+            const person = people.find(p => p.id === id);
+            if (!person) return;
+
+            // Update value
+            if (type === 'beers') {
+                person.beers += change;
+                if (person.beers < 0) person.beers = 0;
+            } else if (type === 'shots') {
+                person.shots += change;
+                if (person.shots < 0) person.shots = 0;
+            }
+
+            saveData();
+            render();
+        }
+
+        // --- UI Rendering ---
+
+        function render() {
+            const container = document.getElementById('list-container');
+            const emptyMsg = document.getElementById('empty-msg');
+            container.innerHTML = '';
+
+            if (people.length === 0) {
+                emptyMsg.style.display = 'block';
+                return;
+            } else {
+                emptyMsg.style.display = 'none';
+            }
+
+            people.forEach(person => {
+                const card = document.createElement('div');
+                card.className = 'person-card';
+                
+                // Use template literals for HTML structure
+                card.innerHTML = `
+                    <div class="person-header">
+                        <span>${escapeHtml(person.name)}</span>
+                        <button class="delete-btn" onclick="removePerson(${person.id})">×</button>
+                    </div>
+                    <div class="counters-wrapper">
+                        <div class="counter-row">
+                            <div class="counter-label">
+                                <span class="beer-icon">🍺</span> Beer
+                            </div>
+                            <div class="counter-controls">
+                                <button class="ctrl-btn minus" onclick="updateCount(${person.id}, 'beers', -1)">−</button>
+                                <span class="count-display">${person.beers}</span>
+                                <button class="ctrl-btn plus" onclick="updateCount(${person.id}, 'beers', 1)">+</button>
+                            </div>
+                        </div>
+                        <div class="counter-row">
+                            <div class="counter-label">
+                                <span class="shot-icon">🥃</span> Shot
+                            </div>
+                            <div class="counter-controls">
+                                <button class="ctrl-btn minus" onclick="updateCount(${person.id}, 'shots', -1)">−</button>
+                                <span class="count-display">${person.shots}</span>
+                                <button class="ctrl-btn plus" onclick="updateCount(${person.id}, 'shots', 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Security helper to prevent HTML injection in names
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+        }
+
+        // --- Modal Handling ---
+
+        const modalOverlay = document.getElementById('modalOverlay');
+        const nameInput = document.getElementById('nameInput');
+
+        function openModal() {
+            modalOverlay.classList.add('active');
+            setTimeout(() => nameInput.focus(), 100); // Focus input after transition starts
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+        }
+
+        // Close modal on 'Enter' key inside input
+        nameInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                addPerson();
+            }
+        });
+
+        // Close modal if clicking outside the content box
+        modalOverlay.addEventListener('click', function(e) {
+            if (e.target === modalOverlay) {
+                closeModal();
+            }
+        });
+
+        // --- Initialize ---
+        loadData();
+
+    </script>
+</body>
+</html>
