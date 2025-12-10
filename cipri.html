@@ -2,15 +2,24 @@
 <html lang="ro">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Băute Ciprienești</title>
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Băute">
+
+    <link rel="manifest" href='data:application/manifest+json,{"name":"Băute Ciprienești","short_name":"Băute","start_url":".","display":"standalone","background_color":"#0f0f0f","theme_color":"#0f0f0f","orientation":"portrait"}'>
+
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%231a1a1a'/><text y='75' x='15' font-size='60'>🍺</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' x='10' font-size='80'>🍺</text></svg>">
+
     <style>
         :root {
             --bg-color: #0f0f0f;
             --card-bg: #1a1a1a;
-            --header-bg: #121212; /* Slightly different for sticky header */
             --text-main: #e0e0e0;
-            --text-muted: #555555; /* Dark grey for 0 count */
+            --text-muted: #555555;
             --text-active: #ffffff;
             --accent: #bb86fc;
             --total-color: #03dac6;
@@ -26,6 +35,7 @@
             padding: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             -webkit-tap-highlight-color: transparent;
+            user-select: none; /* Makes it feel more like an app */
         }
 
         body {
@@ -35,16 +45,17 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-bottom: 80px; /* Space for FAB */
+            padding-bottom: 90px;
+            /* iOS Safe Area handling */
+            padding-top: env(safe-area-inset-top);
         }
 
-        /* --- Sticky Header & Inputs --- */
+        /* --- Sticky Header --- */
         .app-header {
             position: sticky;
             top: 0;
             width: 100%;
-            background-color: rgba(15, 15, 15, 0.95);
-            backdrop-filter: blur(5px);
+            background-color: rgba(15, 15, 15, 0.98);
             z-index: 50;
             padding: 15px 20px;
             border-bottom: 1px solid #333;
@@ -56,7 +67,7 @@
         }
 
         h1 {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--accent);
@@ -75,13 +86,13 @@
             display: flex;
             align-items: center;
             background: #252525;
-            padding: 5px 10px;
+            padding: 6px 10px;
             border-radius: 6px;
             border: 1px solid #333;
         }
 
         .price-group label {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: #aaa;
             margin-right: 8px;
             white-space: nowrap;
@@ -98,21 +109,21 @@
             text-align: right;
         }
 
-        /* --- List Container --- */
+        /* --- List --- */
         #list-container {
             width: 100%;
             max-width: 600px;
             padding: 15px;
             display: flex;
             flex-direction: column;
-            gap: 8px; /* Tight spacing */
+            gap: 8px;
         }
 
-        /* --- Compact Person Card --- */
+        /* --- Card --- */
         .person-card {
             background-color: var(--card-bg);
             border-radius: var(--border-radius);
-            padding: 10px 12px; /* Very compact padding */
+            padding: 10px 12px;
             display: flex;
             flex-direction: column;
             gap: 8px;
@@ -132,10 +143,10 @@
             font-weight: 700;
             font-size: 1rem;
             color: var(--text-main);
+            max-width: 55%;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            max-width: 50%;
         }
 
         .person-total {
@@ -147,7 +158,7 @@
 
         .counters-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr; /* Two columns side by side */
+            grid-template-columns: 1fr 1fr;
             gap: 10px;
         }
 
@@ -164,8 +175,6 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            font-size: 0.85rem;
-            font-weight: 500;
         }
 
         .control-group {
@@ -174,7 +183,6 @@
             gap: 8px;
         }
 
-        /* The count number */
         .count-val {
             font-size: 1rem;
             font-weight: bold;
@@ -186,21 +194,19 @@
         .count-val.zero { color: var(--text-muted); }
         .count-val.active { color: var(--text-active); }
 
-        /* Small Buttons */
         .mini-btn {
-            width: 24px;
-            height: 24px;
-            border-radius: 4px;
+            width: 26px;
+            height: 26px;
+            border-radius: 6px;
             border: none;
             background-color: #333;
             color: white;
-            font-size: 1rem;
+            font-size: 1.1rem;
             line-height: 1;
             cursor: pointer;
             display: flex;
             justify-content: center;
             align-items: center;
-            user-select: none;
         }
         
         .mini-btn:active { background-color: var(--accent); color: black; }
@@ -209,19 +215,20 @@
             background: transparent;
             border: none;
             color: #444;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             margin-left: 10px;
+            padding: 0 5px;
             cursor: pointer;
         }
         .delete-btn:hover { color: var(--danger); }
 
-        /* --- Floating Action Button --- */
+        /* --- FAB --- */
         .fab {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 56px;
-            height: 56px;
+            bottom: 25px;
+            right: 25px;
+            width: 58px;
+            height: 58px;
             background-color: var(--accent);
             border-radius: 50%;
             display: flex;
@@ -233,6 +240,7 @@
             cursor: pointer;
             border: none;
             z-index: 100;
+            padding-bottom: 4px; /* Center alignment fix */
         }
 
         /* --- Modal --- */
@@ -246,29 +254,30 @@
             opacity: 0; pointer-events: none;
             transition: opacity 0.2s;
             z-index: 1000;
-            backdrop-filter: blur(3px);
+            backdrop-filter: blur(4px);
         }
         .modal-overlay.active { opacity: 1; pointer-events: all; }
 
         .modal {
             background-color: #1e1e1e;
             padding: 25px;
-            border-radius: 12px;
+            border-radius: 14px;
             width: 85%;
-            max-width: 350px;
+            max-width: 320px;
             display: flex;
             flex-direction: column;
             gap: 15px;
             border: 1px solid #333;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
         }
 
-        .modal h2 { font-size: 1.2rem; color: var(--text-main); }
+        .modal h2 { font-size: 1.2rem; color: var(--text-main); margin-bottom: 5px; }
 
         .modal input {
             padding: 12px;
             background-color: #2d2d2d;
             border: 1px solid #444;
-            border-radius: 6px;
+            border-radius: 8px;
             color: white;
             font-size: 1rem;
             outline: none;
@@ -278,16 +287,15 @@
         .modal-actions { display: flex; justify-content: flex-end; gap: 10px; }
         
         .btn {
-            padding: 8px 16px; border-radius: 6px; border: none; font-weight: 600; cursor: pointer;
+            padding: 10px 18px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; font-size: 0.95rem;
         }
         .btn-cancel { background: transparent; color: #888; }
         .btn-confirm { background: var(--accent); color: #000; }
 
-        .empty-state { text-align: center; color: #444; margin-top: 40px; font-style: italic; font-size: 0.9rem;}
+        .empty-state { text-align: center; color: #444; margin-top: 50px; font-style: italic; font-size: 0.9rem;}
         
-        /* Icons */
-        .icon-beer { color: var(--beer-color); }
-        .icon-shot { color: var(--shot-color); }
+        .icon-beer { color: var(--beer-color); font-size: 1.2rem; }
+        .icon-shot { color: var(--shot-color); font-size: 1.2rem; }
 
     </style>
 </head>
@@ -298,11 +306,11 @@
         <div class="prices-row">
             <div class="price-group">
                 <label>Preț Bere</label>
-                <input type="number" id="priceBeer" value="15" oninput="updatePrices()">
+                <input type="number" id="priceBeer" inputmode="decimal" value="15" oninput="updatePrices()">
             </div>
             <div class="price-group">
                 <label>Preț Shot</label>
-                <input type="number" id="priceShot" value="10" oninput="updatePrices()">
+                <input type="number" id="priceShot" inputmode="decimal" value="10" oninput="updatePrices()">
             </div>
         </div>
     </div>
@@ -311,7 +319,7 @@
         </div>
 
     <div id="empty-msg" class="empty-state" style="display: none;">
-        Nimeni nu bea încă... Apasă +
+        Nimeni nu bea încă...<br>Apasă + pentru a adăuga
     </div>
 
     <button class="fab" onclick="openModal()">+</button>
@@ -329,20 +337,18 @@
 
     <script>
         // --- State Management ---
-        const STORAGE_KEY = 'baute_ciprienesti_v2';
+        const STORAGE_KEY = 'baute_ciprienesti_v3';
         
         let state = {
             prices: { beer: 15, shot: 10 },
             people: []
         };
 
-        // Initialize
         function init() {
             const stored = localStorage.getItem(STORAGE_KEY);
             if (stored) {
                 try {
                     const parsed = JSON.parse(stored);
-                    // Merge just in case structure changes, but mainly load
                     if (parsed.prices) state.prices = parsed.prices;
                     if (parsed.people) state.people = parsed.people;
                 } catch (e) {
@@ -350,10 +356,8 @@
                 }
             }
             
-            // Set input values from state
             document.getElementById('priceBeer').value = state.prices.beer;
             document.getElementById('priceShot').value = state.prices.shot;
-
             render();
         }
 
@@ -366,17 +370,15 @@
         function updatePrices() {
             const beerP = parseFloat(document.getElementById('priceBeer').value) || 0;
             const shotP = parseFloat(document.getElementById('priceShot').value) || 0;
-            
             state.prices.beer = beerP;
             state.prices.shot = shotP;
             saveData();
-            render(); // Re-calculate totals
+            render();
         }
 
         function addPerson() {
             const input = document.getElementById('nameInput');
             const name = input.value.trim();
-            
             if (!name) return;
 
             const newPerson = {
@@ -414,7 +416,7 @@
             }
 
             saveData();
-            render(); // Efficient enough for a small list
+            render();
         }
 
         // --- Rendering ---
@@ -432,13 +434,10 @@
             }
 
             state.people.forEach(person => {
-                // Calculate Total
                 const totalCost = (person.beers * state.prices.beer) + (person.shots * state.prices.shot);
-
                 const card = document.createElement('div');
                 card.className = 'person-card';
                 
-                // Determine styling for zero vs non-zero
                 const beerClass = person.beers === 0 ? 'count-val zero' : 'count-val active';
                 const shotClass = person.shots === 0 ? 'count-val zero' : 'count-val active';
 
@@ -450,23 +449,17 @@
                             <button class="delete-btn" onclick="removePerson(${person.id})">×</button>
                         </div>
                     </div>
-                    
                     <div class="counters-grid">
                         <div class="counter-item">
-                            <div class="label-group">
-                                <span class="icon-beer">🍺</span>
-                            </div>
+                            <div class="label-group"><span class="icon-beer">🍺</span></div>
                             <div class="control-group">
                                 <button class="mini-btn" onclick="updateCount(${person.id}, 'beers', -1)">-</button>
                                 <span class="${beerClass}">${person.beers}</span>
                                 <button class="mini-btn" onclick="updateCount(${person.id}, 'beers', 1)">+</button>
                             </div>
                         </div>
-
                         <div class="counter-item">
-                            <div class="label-group">
-                                <span class="icon-shot">🥃</span>
-                            </div>
+                            <div class="label-group"><span class="icon-shot">🥃</span></div>
                             <div class="control-group">
                                 <button class="mini-btn" onclick="updateCount(${person.id}, 'shots', -1)">-</button>
                                 <span class="${shotClass}">${person.shots}</span>
@@ -484,7 +477,7 @@
             return text.replace(/[&<>"']/g, m => map[m]);
         }
 
-        // --- UI Helpers ---
+        // --- Modal & UI ---
         const modalOverlay = document.getElementById('modalOverlay');
         const nameInput = document.getElementById('nameInput');
 
@@ -505,9 +498,7 @@
             if (e.target === modalOverlay) closeModal();
         });
 
-        // Start
         init();
-
     </script>
 </body>
 </html>
