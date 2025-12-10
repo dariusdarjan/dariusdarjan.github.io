@@ -9,23 +9,27 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Băute">
 
-    <link rel="manifest" href='data:application/manifest+json,{"name":"Băute Ciprienești","short_name":"Băute","start_url":".","display":"standalone","background_color":"#0f0f0f","theme_color":"#0f0f0f","orientation":"portrait"}'>
+    <link rel="manifest" href="data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22B%C4%83ute%20Cipriene%C8%99ti%22%2C%22short_name%22%3A%22B%C4%83ute%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23121212%22%2C%22theme_color%22%3A%22%23121212%22%2C%22orientation%22%3A%22portrait%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20100%20100%27%253E%253Crect%20width%3D%27100%27%20height%3D%27100%27%20fill%3D%27%2523FFD600%27%2F%253E%253Ctext%20y%3D%2775%27%20x%3D%2715%27%20font-size%3D%2760%27%253E%F0%9F%8D%BA%253C%2Ftext%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D">
 
-    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%231a1a1a'/><text y='75' x='15' font-size='60'>🍺</text></svg>">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' x='10' font-size='80'>🍺</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23FFD600'/%3E%3Ctext y='75' x='15' font-size='60'%3E🍺%3C/text%3E%3C/svg%3E">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='80' x='10' font-size='80'%3E🍺%3C/text%3E%3C/svg%3E">
 
     <style>
         :root {
-            --bg-color: #0f0f0f;
-            --card-bg: #1a1a1a;
-            --text-main: #e0e0e0;
-            --text-muted: #555555;
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-main: #eeeeee;
+            --text-muted: #666666;
             --text-active: #ffffff;
-            --accent: #bb86fc;
-            --total-color: #03dac6;
-            --beer-color: #fca311;
-            --shot-color: #ef233c;
-            --danger: #cf6679;
+            
+            /* Yellow Theme */
+            --accent: #FFD600; 
+            --accent-hover: #ffea00;
+            
+            --total-color: #FFD600; /* Matching Yellow */
+            --beer-color: #FFD600;
+            --shot-color: #ff3d00; /* Red-Orange for contrast */
+            --danger: #ff4444;
             --border-radius: 8px;
         }
 
@@ -35,7 +39,7 @@
             padding: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             -webkit-tap-highlight-color: transparent;
-            user-select: none; /* Makes it feel more like an app */
+            user-select: none;
         }
 
         body {
@@ -46,16 +50,15 @@
             flex-direction: column;
             align-items: center;
             padding-bottom: 90px;
-            /* iOS Safe Area handling */
             padding-top: env(safe-area-inset-top);
         }
 
-        /* --- Sticky Header --- */
+        /* Sticky Header */
         .app-header {
             position: sticky;
             top: 0;
             width: 100%;
-            background-color: rgba(15, 15, 15, 0.98);
+            background-color: rgba(18, 18, 18, 0.98);
             z-index: 50;
             padding: 15px 20px;
             border-bottom: 1px solid #333;
@@ -73,6 +76,7 @@
             color: var(--accent);
             text-align: center;
             margin-bottom: 5px;
+            font-weight: 800;
         }
 
         .prices-row {
@@ -109,7 +113,7 @@
             text-align: right;
         }
 
-        /* --- List --- */
+        /* List */
         #list-container {
             width: 100%;
             max-width: 600px;
@@ -119,7 +123,7 @@
             gap: 8px;
         }
 
-        /* --- Card --- */
+        /* Card */
         .person-card {
             background-color: var(--card-bg);
             border-radius: var(--border-radius);
@@ -127,14 +131,14 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
-            border: 1px solid #2a2a2a;
+            border: 1px solid #333;
         }
 
         .card-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #2a2a2a;
+            border-bottom: 1px solid #333;
             padding-bottom: 6px;
             margin-bottom: 2px;
         }
@@ -154,6 +158,7 @@
             font-weight: bold;
             color: var(--total-color);
             font-size: 1rem;
+            text-shadow: 0 0 5px rgba(255, 214, 0, 0.2);
         }
 
         .counters-grid {
@@ -171,17 +176,8 @@
             border-radius: 6px;
         }
 
-        .label-group {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .control-group {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        .label-group { display: flex; align-items: center; gap: 6px; }
+        .control-group { display: flex; align-items: center; gap: 8px; }
 
         .count-val {
             font-size: 1rem;
@@ -222,7 +218,7 @@
         }
         .delete-btn:hover { color: var(--danger); }
 
-        /* --- FAB --- */
+        /* FAB */
         .fab {
             position: fixed;
             bottom: 25px;
@@ -236,14 +232,15 @@
             align-items: center;
             color: #000;
             font-size: 2rem;
-            box-shadow: 0 4px 15px rgba(187, 134, 252, 0.3);
+            box-shadow: 0 4px 15px rgba(255, 214, 0, 0.3);
             cursor: pointer;
             border: none;
             z-index: 100;
-            padding-bottom: 4px; /* Center alignment fix */
+            padding-bottom: 4px;
         }
+        .fab:active { background-color: var(--accent-hover); }
 
-        /* --- Modal --- */
+        /* Modal */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -268,7 +265,7 @@
             flex-direction: column;
             gap: 15px;
             border: 1px solid #333;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
 
         .modal h2 { font-size: 1.2rem; color: var(--text-main); margin-bottom: 5px; }
@@ -306,11 +303,11 @@
         <div class="prices-row">
             <div class="price-group">
                 <label>Preț Bere</label>
-                <input type="number" id="priceBeer" inputmode="decimal" value="15" oninput="updatePrices()">
+                <input type="number" id="priceBeer" inputmode="decimal" step="0.5" oninput="updatePrices()">
             </div>
             <div class="price-group">
                 <label>Preț Shot</label>
-                <input type="number" id="priceShot" inputmode="decimal" value="10" oninput="updatePrices()">
+                <input type="number" id="priceShot" inputmode="decimal" step="0.5" oninput="updatePrices()">
             </div>
         </div>
     </div>
@@ -337,10 +334,10 @@
 
     <script>
         // --- State Management ---
-        const STORAGE_KEY = 'baute_ciprienesti_v3';
+        const STORAGE_KEY = 'baute_ciprienesti_v5'; // Bumped version for new defaults
         
         let state = {
-            prices: { beer: 15, shot: 10 },
+            prices: { beer: 14.5, shot: 7.5 }, // New Defaults
             people: []
         };
 
@@ -356,6 +353,7 @@
                 }
             }
             
+            // Set inputs
             document.getElementById('priceBeer').value = state.prices.beer;
             document.getElementById('priceShot').value = state.prices.shot;
             render();
@@ -435,6 +433,10 @@
 
             state.people.forEach(person => {
                 const totalCost = (person.beers * state.prices.beer) + (person.shots * state.prices.shot);
+                
+                // Format total nicely (e.g. 15 not 15.0, but 14.5 stays 14.5)
+                const formattedTotal = parseFloat(totalCost.toFixed(2));
+
                 const card = document.createElement('div');
                 card.className = 'person-card';
                 
@@ -445,7 +447,7 @@
                     <div class="card-top">
                         <div class="person-name">${escapeHtml(person.name)}</div>
                         <div style="display:flex; align-items:center;">
-                            <div class="person-total">${totalCost} lei</div>
+                            <div class="person-total">${formattedTotal} lei</div>
                             <button class="delete-btn" onclick="removePerson(${person.id})">×</button>
                         </div>
                     </div>
