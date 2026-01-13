@@ -1,482 +1,529 @@
 <!DOCTYPE html>
-<html lang="ro">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⛪ Bisericuța Noastră - OG</title>
+    <title>⚠️ SYSTEM COMPROMISED ⚠️</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
-        
+        @import url('https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap');
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            font-family: 'Inter', sans-serif;
-            background: 
-                linear-gradient(135deg, #4A2C2A 0%, #8B4513 25%, #D2B48C 60%, #F5E6D3 100%);
-            min-height: 100vh;
-            color: #2C1810;
+            font-family: 'VT323', monospace;
+            background: #000;
+            color: #0f0;
             overflow-x: hidden;
             position: relative;
-        }
-        
-        /* Subtle wood grain texture */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                repeating-linear-gradient(
-                    90deg,
-                    rgba(120,90,70,0.05) 0px,
-                    rgba(140,110,90,0.03) 2px,
-                    transparent 4px,
-                    transparent 12px
-                );
-            z-index: -3;
-            opacity: 0.3;
-        }
-        
-        .church-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 15% 30%, rgba(139,69,19,0.15) 0%, transparent 40%),
-                radial-gradient(circle at 85% 20%, rgba(210,180,140,0.2) 0%, transparent 45%),
-                radial-gradient(circle at 50% 70%, rgba(245,230,211,0.15) 0%, transparent 40%),
-                radial-gradient(circle at 25% 80%, rgba(160,82,45,0.1) 0%, transparent 35%);
-            z-index: -2;
-        }
-        
-        .stained-glass {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                linear-gradient(45deg, rgba(139,69,19,0.1) 0%, transparent 30%),
-                linear-gradient(-45deg, rgba(160,82,45,0.12) 0%, transparent 35%),
-                linear-gradient(90deg, rgba(210,180,140,0.1) 0%, transparent 60%),
-                radial-gradient(circle at 70% 30%, rgba(245,230,211,0.15) 0%, transparent 40%);
-            z-index: -1;
-            animation: shimmer 12s ease-in-out infinite alternate;
-        }
-        
-        @keyframes shimmer {
-            0% { opacity: 0.4; transform: translateX(0px); }
-            100% { opacity: 0.8; transform: translateX(5px); }
-        }
-        
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 2rem;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .header {
-            text-align: center;
-            margin-bottom: 3rem;
-            background: linear-gradient(135deg, rgba(245,230,211,0.98) 0%, rgba(255,248,240,0.95) 100%);
-            backdrop-filter: blur(15px);
-            border-radius: 25px;
-            padding: 3rem 2rem;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 25px 50px rgba(60,42,30,0.2), inset 0 1px 0 rgba(255,255,255,0.6);
-            border: 2px solid rgba(160,135,115,0.3);
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: repeating-linear-gradient(90deg, rgba(120,100,85,0.04) 0px, transparent 3px, rgba(140,120,105,0.02) 6px, transparent 12px);
-            border-radius: 25px;
-            z-index: 0;
-        }
-        
-        .header * {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .header h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
-            font-weight: 900;
-            color: #2C1810;
-            margin-bottom: 0.5rem;
-            text-shadow: 3px 3px 6px rgba(139,69,19,0.15), 0 0 20px rgba(245,230,211,0.3);
-            background: linear-gradient(135deg, #2C1810 0%, #4A2C2A 50%, #8B4513 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .header .subtitle {
-            font-size: 1.3rem;
-            color: #6D4C41;
-            font-weight: 500;
-            margin-bottom: 1.5rem;
-            letter-spacing: 1px;
-        }
-        
-        .date-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #4A2C2A 0%, #8B4513 50%, #A0522D 100%);
-            color: #F5E6D3;
-            padding: 0.8rem 1.5rem;
-            border-radius: 30px;
-            font-size: 1rem;
-            font-weight: 600;
-            box-shadow: 0 8px 20px rgba(139,69,19,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
-            border: 1px solid rgba(160,82,45,0.3);
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-        }
-        
-        .card {
-            background: linear-gradient(135deg, rgba(245,230,211,0.98) 0%, rgba(255,248,240,0.95) 100%);
-            backdrop-filter: blur(15px);
-            border-radius: 25px;
-            padding: 2.5rem;
-            margin-bottom: 2.5rem;
-            position: relative;
-            overflow: visible;
-            transition: all 0.3s ease;
-            box-shadow: 0 25px 50px rgba(60,42,30,0.2), inset 0 1px 0 rgba(255,255,255,0.6);
-            border: 2px solid rgba(160,135,115,0.4);
-        }
-        
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: repeating-linear-gradient(90deg, rgba(130,115,100,0.03) 0px, transparent 4px, rgba(145,130,115,0.02) 8px, transparent 12px);
-            border-radius: 25px;
-            z-index: 0;
-        }
-        
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 35px 70px rgba(60,42,30,0.25);
-        }
-        
-        .card * {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .story-section h2, .rules-section h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: #2C1810;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            text-shadow: 2px 2px 4px rgba(139,69,19,0.1);
-        }
-        
-        .story-text {
-            font-size: 1.15rem;
-            line-height: 1.9;
-            color: #3C2A1E;
-            margin-bottom: 1.8rem;
-            font-weight: 400;
-        }
-        
-        .highlight {
-            background: linear-gradient(120deg, #FFE082 0%, #FFAB91 50%, #FFCDD2 100%);
-            padding: 0.3rem 0.6rem;
-            border-radius: 12px;
-            font-weight: 600;
-            color: #2C1810;
-            box-shadow: 0 2px 8px rgba(255,171,145,0.3);
-            border: 1px solid rgba(255,224,130,0.5);
-        }
-        
-        .rule-item {
-            background: linear-gradient(135deg, rgba(210,180,140,0.6) 0%, rgba(245,230,211,0.4) 100%);
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 1.5rem;
-            border-left: 6px solid #4A2C2A;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: visible;
-            border: 1px solid rgba(150,125,105,0.2);
-        }
-        
-        .rule-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: repeating-linear-gradient(135deg, rgba(125,110,95,0.02) 0px, transparent 6px, rgba(140,125,110,0.01) 12px, transparent 18px);
-            border-radius: 20px;
-            z-index: 0;
-        }
-        
-        .rule-item * {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .rule-item:hover {
-            transform: translateY(-3px) translateX(5px);
-            box-shadow: 0 15px 35px rgba(60,42,30,0.2), -5px 0 20px rgba(139,69,19,0.1);
-            border-left-color: #8B4513;
-        }
-        
-        .rule-number {
-            position: absolute;
-            top: -15px;
-            left: 25px;
-            background: linear-gradient(135deg, #4A2C2A 0%, #8B4513 50%, #A0522D 100%);
-            color: #F5E6D3;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
-            font-size: 1.1rem;
-            box-shadow: 0 6px 15px rgba(139,69,19,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
-            border: 2px solid rgba(245,230,211,0.3);
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
         }
-        
-        .rule-text {
-            font-size: 1.05rem;
-            line-height: 1.7;
-            color: #3C2A1E;
-            margin-top: 0.8rem;
-            font-weight: 400;
-        }
-        
-        .warning-box {
-            background: linear-gradient(135deg, #D32F2F 0%, #F44336 50%, #FF5722 100%);
-            color: white;
-            padding: 2rem;
-            border-radius: 20px;
-            margin: 2.5rem 0;
-            text-align: center;
-            font-weight: 600;
-            font-size: 1.1rem;
-            box-shadow: 0 15px 35px rgba(255,87,34,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
-            border: 2px solid rgba(180,155,140,0.3);
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .warning-box::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            animation: warning-shine 3s infinite;
-            z-index: 1;
-        }
-        
-        @keyframes warning-shine {
-            0% { left: -100%; }
-            50% { left: 100%; }
-            100% { left: 100%; }
-        }
-        
-        .emoji-float {
+
+        /* Matrix rain effect background */
+        .matrix-bg {
             position: fixed;
-            font-size: 2.5rem;
-            opacity: 0.6;
-            animation: float 8s ease-in-out infinite;
-            pointer-events: none;
-            z-index: 0;
-            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));
-        }
-        
-        .emoji-float:nth-child(1) { top: 12%; right: 5%; animation-delay: 0s; }
-        .emoji-float:nth-child(2) { top: 35%; right: 8%; animation-delay: 1.5s; }
-        .emoji-float:nth-child(3) { top: 65%; left: 6%; animation-delay: 3s; }
-        .emoji-float:nth-child(4) { bottom: 25%; right: 12%; animation-delay: 4.5s; }
-        .emoji-float:nth-child(5) { bottom: 45%; left: 4%; animation-delay: 6s; }
-        .emoji-float:nth-child(6) { bottom: 8%; right: 20%; animation-delay: 2s; }
-        .emoji-float:nth-child(7) { top: 80%; right: 30%; animation-delay: 7s; }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); opacity: 0.6; }
-            25% { transform: translateY(-15px) rotate(2deg) scale(1.05); opacity: 0.8; }
-            50% { transform: translateY(-25px) rotate(5deg) scale(1.1); opacity: 0.9; }
-            75% { transform: translateY(-10px) rotate(3deg) scale(1.05); opacity: 0.7; }
-        }
-        
-        .footer {
-            text-align: center;
-            margin-top: 4rem;
-            padding: 2.5rem;
-            background: linear-gradient(135deg, rgba(74,44,42,0.95) 0%, rgba(139,69,19,0.9) 100%);
-            backdrop-filter: blur(15px);
-            border-radius: 25px;
-            color: #F5E6D3;
-            font-weight: 400;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(60,42,30,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
-            border: 2px solid rgba(180,155,140,0.3);
-        }
-        
-        .footer::before {
-            content: '';
-            position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background: repeating-linear-gradient(45deg, rgba(160,145,130,0.04) 0px, transparent 6px, rgba(170,155,140,0.02) 12px, transparent 18px);
-            border-radius: 25px;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            overflow: hidden;
             z-index: 0;
         }
-        
-        .footer * {
+
+        .matrix-column {
+            position: absolute;
+            top: -100%;
+            font-size: 20px;
+            color: #0f0;
+            writing-mode: vertical-rl;
+            animation: matrix-fall linear infinite;
+            text-shadow: 0 0 8px #0f0;
+            opacity: 0.5;
+        }
+
+        @keyframes matrix-fall {
+            0% {
+                top: -100%;
+            }
+
+            100% {
+                top: 100%;
+            }
+        }
+
+        /* Scanlines effect */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg,
+                    rgba(0, 0, 0, 0.15),
+                    rgba(0, 0, 0, 0.15) 1px,
+                    transparent 1px,
+                    transparent 2px);
+            pointer-events: none;
+            z-index: 999;
+            animation: scanline-move 8s linear infinite;
+        }
+
+        @keyframes scanline-move {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(10px);
+            }
+        }
+
+        /* Screen flicker */
+        @keyframes flicker {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.97;
+            }
+        }
+
+        .container {
             position: relative;
-            z-index: 1;
+            z-index: 10;
+            max-width: 900px;
+            padding: 2rem;
+            text-align: center;
+            animation: flicker 0.15s infinite;
         }
-        
-        .footer p {
-            margin: 0.5rem 0;
-            font-size: 1.1rem;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+
+        .skull {
+            font-size: 8rem;
+            margin-bottom: 1rem;
+            animation: glitch-skull 1s infinite;
+            text-shadow:
+                0 0 10px #f00,
+                0 0 20px #f00,
+                0 0 30px #f00,
+                3px 0 0 #0ff,
+                -3px 0 0 #f0f;
         }
-        
-        /* Responsive design */
+
+        @keyframes glitch-skull {
+
+            0%,
+            100% {
+                transform: translate(0);
+            }
+
+            20% {
+                transform: translate(-2px, 2px);
+            }
+
+            40% {
+                transform: translate(-2px, -2px);
+            }
+
+            60% {
+                transform: translate(2px, 2px);
+            }
+
+            80% {
+                transform: translate(2px, -2px);
+            }
+        }
+
+        .warning-header {
+            font-size: 4rem;
+            color: #f00;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            animation: glitch 2s infinite;
+            letter-spacing: 0.2rem;
+            text-shadow:
+                0 0 10px #f00,
+                0 0 20px #f00,
+                0 0 30px #f00,
+                0 0 40px #f00;
+        }
+
+        @keyframes glitch {
+
+            0%,
+            100% {
+                transform: translate(0);
+            }
+
+            10% {
+                transform: translate(-5px, -5px);
+                text-shadow:
+                    3px 3px 0 #0ff,
+                    -3px -3px 0 #f0f,
+                    0 0 20px #f00;
+            }
+
+            20% {
+                transform: translate(5px, 5px);
+                text-shadow:
+                    -3px -3px 0 #0ff,
+                    3px 3px 0 #f0f,
+                    0 0 20px #f00;
+            }
+
+            30% {
+                transform: translate(-2px, 2px);
+            }
+
+            40% {
+                transform: translate(2px, -2px);
+            }
+        }
+
+        .terminal-box {
+            background: rgba(0, 20, 0, 0.95);
+            border: 3px solid #0f0;
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow:
+                0 0 20px #0f0,
+                inset 0 0 20px rgba(0, 255, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .terminal-box::before {
+            content: '> SYSTEM LOG_';
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            font-size: 0.9rem;
+            color: #0f0;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            50% {
+                opacity: 1;
+            }
+
+            51%,
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .hacker-text {
+            font-size: 1.5rem;
+            line-height: 2;
+            color: #0f0;
+            text-align: left;
+            margin-top: 2rem;
+            font-family: 'Share Tech Mono', monospace;
+            text-shadow: 0 0 5px #0f0;
+        }
+
+        .hacker-text .error {
+            color: #f00;
+            font-weight: bold;
+            text-shadow: 0 0 5px #f00;
+        }
+
+        .hacker-text .warning {
+            color: #ff0;
+            text-shadow: 0 0 5px #ff0;
+        }
+
+        .rescue-box {
+            background: rgba(0, 50, 100, 0.95);
+            border: 3px solid #0ff;
+            border-radius: 10px;
+            padding: 2.5rem;
+            margin: 3rem 0;
+            box-shadow:
+                0 0 30px #0ff,
+                inset 0 0 30px rgba(0, 255, 255, 0.1);
+            animation: pulse-box 2s infinite;
+        }
+
+        @keyframes pulse-box {
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px #0ff, inset 0 0 20px rgba(0, 255, 255, 0.1);
+            }
+
+            50% {
+                box-shadow: 0 0 40px #0ff, inset 0 0 40px rgba(0, 255, 255, 0.2);
+            }
+        }
+
+        .rescue-header {
+            font-size: 3rem;
+            color: #0ff;
+            margin-bottom: 1.5rem;
+            text-shadow:
+                0 0 10px #0ff,
+                0 0 20px #0ff,
+                0 0 30px #0ff;
+            animation: glow 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow:
+                    0 0 10px #0ff,
+                    0 0 20px #0ff,
+                    0 0 30px #0ff;
+            }
+
+            to {
+                text-shadow:
+                    0 0 20px #0ff,
+                    0 0 30px #0ff,
+                    0 0 40px #0ff,
+                    0 0 50px #0ff;
+            }
+        }
+
+        .rescue-text {
+            font-size: 1.8rem;
+            color: #fff;
+            line-height: 1.8;
+            margin: 1.5rem 0;
+            text-shadow: 0 0 5px #0ff;
+        }
+
+        .hero-name {
+            font-size: 2.5rem;
+            color: #0f0;
+            font-weight: bold;
+            text-shadow:
+                0 0 10px #0f0,
+                0 0 20px #0f0;
+            display: inline-block;
+            animation: hero-pulse 1s infinite;
+        }
+
+        @keyframes hero-pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .contact-box {
+            background: rgba(100, 0, 0, 0.95);
+            border: 3px solid #ff0;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow:
+                0 0 25px #ff0,
+                inset 0 0 25px rgba(255, 255, 0, 0.1);
+        }
+
+        .contact-header {
+            font-size: 2.5rem;
+            color: #ff0;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 15px #ff0;
+        }
+
+        .contact-text {
+            font-size: 1.6rem;
+            color: #fff;
+            line-height: 1.8;
+            text-shadow: 0 0 5px #ff0;
+        }
+
+        .footer-text {
+            font-size: 1.3rem;
+            color: #f00;
+            margin-top: 3rem;
+            animation: glitch-footer 3s infinite;
+            text-shadow: 0 0 10px #f00;
+        }
+
+        @keyframes glitch-footer {
+
+            0%,
+            90%,
+            100% {
+                transform: translate(0);
+            }
+
+            92% {
+                transform: translate(-2px, 2px);
+            }
+
+            94% {
+                transform: translate(2px, -2px);
+            }
+
+            96% {
+                transform: translate(-2px, -2px);
+            }
+
+            98% {
+                transform: translate(2px, 2px);
+            }
+        }
+
+        .typed-cursor {
+            animation: blink 1s infinite;
+        }
+
         @media (max-width: 768px) {
-            .container { padding: 1rem; }
-            .header h1 { font-size: 2.5rem; }
-            .header { padding: 2rem 1.5rem; }
-            .card { padding: 2rem 1.5rem; }
-            .story-section h2, .rules-section h2 { font-size: 1.8rem; }
-            .rule-item { padding: 1.5rem; }
-            .rule-number { width: 35px; height: 35px; font-size: 1rem; }
-            .emoji-float { font-size: 2rem; }
-        }
-        
-        @media (max-width: 480px) {
-            .header h1 { font-size: 2rem; }
-            .story-section h2, .rules-section h2 { font-size: 1.5rem; }
-            .story-text { font-size: 1rem; }
-            .rule-text { font-size: 0.95rem; }
+            .warning-header {
+                font-size: 2.5rem;
+            }
+
+            .skull {
+                font-size: 5rem;
+            }
+
+            .hacker-text {
+                font-size: 1.2rem;
+            }
+
+            .rescue-header {
+                font-size: 2rem;
+            }
+
+            .rescue-text {
+                font-size: 1.3rem;
+            }
+
+            .hero-name {
+                font-size: 1.8rem;
+            }
+
+            .contact-header {
+                font-size: 1.8rem;
+            }
+
+            .contact-text {
+                font-size: 1.2rem;
+            }
         }
     </style>
 </head>
+
 <body>
-    <div class="church-bg"></div>
-    <div class="stained-glass"></div>
-    
-    <div class="emoji-float">⛪</div>
-    <div class="emoji-float">🕊️</div>
-    <div class="emoji-float">📜</div>
-    <div class="emoji-float">✨</div>
-    <div class="emoji-float">🏛️</div>
-    
+    <!-- Matrix rain background -->
+    <div class="matrix-bg" id="matrix"></div>
+
+    <!-- Scanlines effect -->
+    <div class="scanlines"></div>
+
     <div class="container">
-        <div class="header">
-            <h1>⛪ Bisericuța Noastră</h1>
-            <p class="subtitle">Our Beloved, Trusted OG Community 🏛️</p>
-            <div class="date-badge">📅 Fondată: 31 Iulie 2025</div>
-        </div>
-        
-        <div class="card story-section">
-            <h2>🤔 Salut, nou venit!</h2>
-            <div class="story-text">
-                Poate tocmai ai fost adăugat în acest grup și nu înțelegi încă ce se întâmplă, sau poate doar revizitezi acest link pentru a-ți împrospăta memoria. Oricare ar fi cazul, aici ai toate răspunsurile! Dacă mai doriți să adăugăm ceva, îmi spuneți.
-            </div>
-        </div>
-        
-        <div class="card story-section">
-            <h2>📖 Povestea Noastră</h2>
-            <div class="story-text">
-                Totul a început într-o bună zi <span class="highlight">(31 Iulie 2025)</span> când Andrei și Armin au decis să creeze o așa-zisă bisericuță pentru că <span class="highlight">bisericuța ORIGINALĂ</span> (din care voi acum faceți parte) nu voia să le zică tot ce s-a discutat la ieșirea din ziua anterioară (sărbătorirea zilei lui Cristi, dar fără Cristi). 
-            </div>
-            <div class="story-text">
-                Apoi bisericuța noastră a pus stăpânire pe situația și a început să recruteze pe toată lumea care nu va fi lăsată să cadă în tirania bisericuței FALSE creată de Armin și Andrei.
-            </div>
-            
-            <div class="warning-box">
-                🚨 ATENȚIE! Ei au planuri de extindere și de monopolizare a conjuncturilor sociale chiar din jurul nostru, așa că stați cu ochii în patru și nu le cădeți în plasă, nici voi nici cei dragi vouă!! 🚨
-            </div>
-        </div>
-        
-        <div class="card rules-section">
-            <h2>📋 Regulile & Obiceiurile Noastre</h2>
-            <p style="text-align: center; margin-bottom: 2rem; font-style: italic; color: #666; font-size: 1.1rem;">
-                Lista cu obiceiurile și regulile nescrise (acum scrise) ale bisericuței:
-            </p>
-            
-            <div class="rule-item">
-                <div class="rule-number">1</div>
-                <div class="rule-text">
-                    🤫 Bisericuța aduce noi membri cu grijă și restrângere, nu facem reclamă, păstrăm totul pentru noi, nu dăm din casă (/biserica). Oricine divulgă informații confidențiale din bisericuță va fi dat afară permanent și va fi considerat trădător pentru totdeauna (sau până când convertim pe toată lumea).
-                </div>
-            </div>
-            
-            <div class="rule-item">
-                <div class="rule-number">2</div>
-                <div class="rule-text">
-                    📸 Ocazional primim poze cu un tip pe care îl are Alexandra pe Facebook și îi place să posteze poze dubioase cu picioarele. (sunt mai mulți tipi, este și unul care vizitează TOT ce poate)
-                </div>
-            </div>
+        <div class="skull">☠️</div>
 
-            <div class="rule-item">
-                <div class="rule-number">3</div>
-                <div class="rule-text">
-                    🏝️ Insula Iubirii e sfântă.
-                </div>
-            </div>
+        <h1 class="warning-header">⚠️ SYSTEM HACKED ⚠️</h1>
 
-<div class="rule-item">
-                <div class="rule-number">4</div>
-                <div class="rule-text">
-                    🍺 Oricine combină berea blondă cu cea brună în același pahar este excomunicat din bisericuță și călcat cu Dusterul (REN).
-                </div>
-            </div>
-            
-            <div class="rule-item">
-                <div class="rule-number">5</div>
-                <div class="rule-text">
-                    📈 Lista va fi extinsă cât de mult posibil când apar noi tradiții și obiceiuri care trebuie înscrise.
-                </div>
+        <div class="terminal-box">
+            <div class="hacker-text">
+                <span class="error">[ERROR]</span> UNAUTHORIZED ACCESS DETECTED<br>
+                <span class="error">[ERROR]</span> ALL FILES ENCRYPTED<br>
+                <span class="warning">[WARNING]</span> DATABASE COMPROMISED<br>
+                <span class="error">[CRITICAL]</span> SYSTEM INTEGRITY: 0%<br>
+                <span class="warning">[STATUS]</span> DATA EXFILTRATION COMPLETE<br>
+                <span class="error">[ALERT]</span> BACKDOOR INSTALLED<br>
+                <br>
+                > YOUR SYSTEMS HAVE BEEN PWNED<span class="typed-cursor">_</span>
             </div>
         </div>
-        
-        <div class="footer">
-            <p>✨ Făcut cu dragoste pentru noi ✨</p>
-            <p>🏛️ Proprietate a bisericuței noastre 🏛️</p>
+
+        <div class="rescue-box">
+            <div class="rescue-header">🛡️ SALVATION PROTOCOL ACTIVATED 🛡️</div>
+            <div class="rescue-text">
+                This website was hacked by malicious actors...<br>
+                BUT YOU HAVE BEEN SAVED!
+            </div>
+            <div class="rescue-text">
+                Thanks to the heroic intervention of<br>
+                <span class="hero-name">✨ BISERICUTA OAMENILOR EGALI ✨</span>
+            </div>
+            <div class="rescue-text">
+                Your data was recovered by our cyber guardians:<br>
+                <span class="hero-name">ARMIN</span> & <span class="hero-name">ANDREI</span>
+            </div>
         </div>
-    </div>
+
+        <div class="contact-box">
+            <div class="contact-header">📞 URGENT: RECOVER YOUR DATA</div>
+            <div class="contact-text">
+                To retrieve your encrypted data, you must contact:<br>
+                <br>
+                <span style="color: #0f0; font-size: 2rem;">ARMIN</span> or <span
+                    style="color: #0f0; font-size: 2rem;">ANDREI</span><br>
+                <br>
+                Only they hold the decryption keys!<br>
+                <br>
+                ⏰ Time is running out... Contact them NOW! ⏰
+            </div>
+        </div>
+
+        <div class="footer-text">
+            >>> THIS SITE REMAINS COMPROMISED <<<br>
+                >>> PROTECTED BY BISERICUTA OAMENILOR EGALI <<<br>
+                    >>> HACKED STATUS: PERMANENT <<< </div>
+        </div>
+
+        <script>
+            // Create matrix rain effect
+            function createMatrixRain() {
+                const matrix = document.getElementById('matrix');
+                const chars = '01アイウエオカキクケコサシスセソタチツテト';
+
+                for (let i = 0; i < 50; i++) {
+                    const column = document.createElement('div');
+                    column.className = 'matrix-column';
+                    column.style.left = Math.random() * 100 + '%';
+                    column.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    column.style.animationDelay = Math.random() * 5 + 's';
+
+                    let text = '';
+                    for (let j = 0; j < 30; j++) {
+                        text += chars[Math.floor(Math.random() * chars.length)];
+                    }
+                    column.textContent = text;
+
+                    matrix.appendChild(column);
+                }
+            }
+
+            createMatrixRain();
+
+            // Random glitch effect
+            setInterval(() => {
+                if (Math.random() > 0.95) {
+                    document.body.style.transform = `translate(${Math.random() * 4 - 2}px, ${Math.random() * 4 - 2}px)`;
+                    setTimeout(() => {
+                        document.body.style.transform = 'translate(0, 0)';
+                    }, 50);
+                }
+            }, 100);
+        </script>
 </body>
+
 </html>
