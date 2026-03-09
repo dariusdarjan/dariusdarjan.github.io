@@ -30,6 +30,7 @@
             --beer-color: #FFD600;
             --shot-color: #ff3d00;
             --danger: #ff4444;
+            --success: #00E676;
             --border-radius: 8px;
         }
 
@@ -69,15 +70,41 @@
             max-width: 600px;
         }
 
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
         h1 {
             font-size: 1.1rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--accent);
-            text-align: center;
-            margin-bottom: 5px;
+            margin: 0;
             font-weight: 800;
         }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .icon-btn {
+            background: #2a2a2a;
+            border: 1px solid #444;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .icon-btn:active { background: var(--accent); color: black; }
 
         .prices-row {
             display: flex;
@@ -113,8 +140,8 @@
             text-align: right;
         }
 
-        /* List */
-        #list-container {
+        /* List Containers */
+        #list-container, #history-container {
             width: 100%;
             max-width: 600px;
             padding: 15px;
@@ -132,6 +159,12 @@
             flex-direction: column;
             gap: 8px;
             border: 1px solid #333;
+            transition: border-color 0.3s;
+        }
+        
+        .person-card.paid {
+            border-color: var(--success);
+            background-color: rgba(0, 230, 118, 0.05);
         }
 
         .card-top {
@@ -147,10 +180,16 @@
             font-weight: 700;
             font-size: 1rem;
             color: var(--text-main);
-            max-width: 55%;
+            max-width: 50%;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+        }
+        
+        .person-card.paid .person-name {
+            color: var(--success);
+            text-decoration: line-through;
+            opacity: 0.8;
         }
 
         .person-total {
@@ -159,6 +198,13 @@
             color: var(--total-color);
             font-size: 1rem;
             text-shadow: 0 0 5px rgba(255, 214, 0, 0.2);
+            margin-right: 10px;
+        }
+
+        .card-actions {
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .counters-grid {
@@ -207,15 +253,18 @@
         
         .mini-btn:active { background-color: var(--accent); color: black; }
         
-        .delete-btn {
+        /* Check & Delete Buttons */
+        .check-btn, .delete-btn {
             background: transparent;
             border: none;
-            color: #444;
             font-size: 1.2rem;
-            margin-left: 10px;
-            padding: 0 5px;
             cursor: pointer;
+            padding: 0 5px;
+            transition: 0.2s;
         }
+        .check-btn { color: #555; }
+        .check-btn.active { color: var(--success); text-shadow: 0 0 8px rgba(0, 230, 118, 0.5); }
+        .delete-btn { color: #555; }
         .delete-btn:hover { color: var(--danger); }
 
         /* FAB */
@@ -240,17 +289,15 @@
         }
         .fab:active { background-color: var(--accent-hover); }
 
-        /* --- Modal Updates --- */
+        /* Modal */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.85);
             display: flex;
             justify-content: center;
-            /* Changed from center to flex-start to move it up */
             align-items: flex-start; 
-            /* Push it down 15% from top so it's not sticking to the header */
-            padding-top: 15vh; 
+            padding-top: 10vh; 
             opacity: 0; pointer-events: none;
             transition: opacity 0.2s;
             z-index: 1000;
@@ -260,10 +307,10 @@
 
         .modal {
             background-color: #1e1e1e;
-            padding: 25px;
+            padding: 20px;
             border-radius: 14px;
-            width: 85%;
-            max-width: 320px;
+            width: 90%;
+            max-width: 350px;
             display: flex;
             flex-direction: column;
             gap: 15px;
@@ -271,9 +318,12 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
 
-        .modal h2 { font-size: 1.2rem; color: var(--text-main); margin-bottom: 5px; }
+        .modal h2 { font-size: 1.2rem; color: var(--text-main); margin-bottom: 0; }
 
+        .search-wrapper { position: relative; }
+        
         .modal input {
+            width: 100%;
             padding: 12px;
             background-color: #2d2d2d;
             border: 1px solid #444;
@@ -284,50 +334,112 @@
         }
         .modal input:focus { border-color: var(--accent); }
 
-        .modal-actions { display: flex; justify-content: flex-end; gap: 10px; }
-        
-        .btn {
-            padding: 10px 18px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; font-size: 0.95rem;
+        /* Autocomplete List */
+        .autocomplete-list {
+            margin-top: 5px;
+            max-height: 150px;
+            overflow-y: auto;
+            background: #252525;
+            border: 1px solid #444;
+            border-radius: 8px;
+            display: none;
         }
+        .autocomplete-list.active { display: block; }
+        
+        .autocomplete-item {
+            padding: 10px 12px;
+            border-bottom: 1px solid #333;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+        }
+        .autocomplete-item:last-child { border-bottom: none; }
+        .autocomplete-item:active { background-color: #333; }
+        .ac-name { font-weight: bold; }
+        .ac-stats { font-size: 0.8rem; color: #888; }
+
+        .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 5px; }
+        
+        .btn { padding: 10px 18px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; font-size: 0.95rem; }
         .btn-cancel { background: transparent; color: #888; }
         .btn-confirm { background: var(--accent); color: #000; }
 
-        .empty-state { text-align: center; color: #444; margin-top: 50px; font-style: italic; font-size: 0.9rem;}
+        .empty-state { text-align: center; color: #555; margin-top: 50px; font-style: italic; font-size: 0.9rem;}
         
         .icon-beer { color: var(--beer-color); font-size: 1.2rem; }
         .icon-shot { color: var(--shot-color); font-size: 1.2rem; }
+
+        /* History View Specifics */
+        .history-card {
+            background-color: #222;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .history-stats {
+            display: flex;
+            gap: 15px;
+            font-weight: bold;
+        }
 
     </style>
 </head>
 <body>
 
-    <div class="app-header">
-        <h1>Băute Ciprienești</h1>
-        <div class="prices-row">
-            <div class="price-group">
-                <label>Preț Bere</label>
-                <input type="number" id="priceBeer" inputmode="decimal" step="0.5" oninput="updatePrices()">
+    <div id="main-view">
+        <div class="app-header">
+            <div class="header-top">
+                <h1>Băute Ciprienești</h1>
+                <div class="header-actions">
+                    <button class="icon-btn" onclick="toggleView('history')" title="Istoric">📜</button>
+                    <button class="icon-btn" onclick="endNight()" title="Încheie Seara">🏁</button>
+                </div>
             </div>
-            <div class="price-group">
-                <label>Preț Shot</label>
-                <input type="number" id="priceShot" inputmode="decimal" step="0.5" oninput="updatePrices()">
+            <div class="prices-row">
+                <div class="price-group">
+                    <label>Preț Bere</label>
+                    <input type="number" id="priceBeer" inputmode="decimal" step="0.5" oninput="updatePrices()">
+                </div>
+                <div class="price-group">
+                    <label>Preț Shot</label>
+                    <input type="number" id="priceShot" inputmode="decimal" step="0.5" oninput="updatePrices()">
+                </div>
             </div>
         </div>
-    </div>
 
-    <div id="list-container">
+        <div id="list-container"></div>
+        <div id="empty-msg" class="empty-state" style="display: none;">
+            Nimeni nu bea încă...<br>Apasă + pentru a adăuga
         </div>
 
-    <div id="empty-msg" class="empty-state" style="display: none;">
-        Nimeni nu bea încă...<br>Apasă + pentru a adăuga
+        <button class="fab" onclick="openModal()">+</button>
     </div>
 
-    <button class="fab" onclick="openModal()">+</button>
+    <div id="history-view" style="display: none;">
+        <div class="app-header">
+            <div class="header-top">
+                <h1>Istoric Bețivi</h1>
+                <div class="header-actions">
+                    <button class="icon-btn" onclick="toggleView('main')">🔙</button>
+                </div>
+            </div>
+        </div>
+        <div id="history-container"></div>
+        <div id="empty-history-msg" class="empty-state" style="display: none;">
+            Nu există istoric momentan.<br>Apasă 🏁 pentru a încheia o seară.
+        </div>
+    </div>
 
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal">
             <h2>Cine bea?</h2>
-            <input type="text" id="nameInput" placeholder="Numele..." autocomplete="off">
+            <div class="search-wrapper">
+                <input type="text" id="nameInput" placeholder="Numele..." autocomplete="off" oninput="handleSearch()">
+                <div id="autocompleteList" class="autocomplete-list"></div>
+            </div>
             <div class="modal-actions">
                 <button class="btn btn-cancel" onclick="closeModal()">Anulează</button>
                 <button class="btn btn-confirm" onclick="addPerson()">Adaugă</button>
@@ -337,11 +449,12 @@
 
     <script>
         // --- State Management ---
-        const STORAGE_KEY = 'baute_ciprienesti_v6'; 
+        const STORAGE_KEY = 'baute_ciprienesti_v7'; // Updated for history system
         
         let state = {
             prices: { beer: 14.5, shot: 7.5 },
-            people: []
+            activeSession: [], // List for current night
+            history: []        // All-time totals: {id, name, totalBeers, totalShots}
         };
 
         function init() {
@@ -350,15 +463,14 @@
                 try {
                     const parsed = JSON.parse(stored);
                     if (parsed.prices) state.prices = parsed.prices;
-                    if (parsed.people) state.people = parsed.people;
-                } catch (e) {
-                    console.error("Data error", e);
-                }
+                    if (parsed.activeSession) state.activeSession = parsed.activeSession;
+                    if (parsed.history) state.history = parsed.history;
+                } catch (e) { console.error("Data error", e); }
             }
             
             document.getElementById('priceBeer').value = state.prices.beer;
             document.getElementById('priceShot').value = state.prices.shot;
-            render();
+            renderMain();
         }
 
         function saveData() {
@@ -368,43 +480,98 @@
         // --- Core Logic ---
 
         function updatePrices() {
-            const beerP = parseFloat(document.getElementById('priceBeer').value) || 0;
-            const shotP = parseFloat(document.getElementById('priceShot').value) || 0;
-            state.prices.beer = beerP;
-            state.prices.shot = shotP;
+            state.prices.beer = parseFloat(document.getElementById('priceBeer').value) || 0;
+            state.prices.shot = parseFloat(document.getElementById('priceShot').value) || 0;
             saveData();
-            render();
+            renderMain();
         }
 
-        function addPerson() {
+        // --- End of Night & History Logic ---
+        
+        function endNight() {
+            if (state.activeSession.length === 0) {
+                alert("Nu e nimeni în listă momentan.");
+                return;
+            }
+            if (confirm("Ești sigur că vrei să închei seara? Datele vor fi salvate în istoric.")) {
+                
+                // Merge activeSession into history
+                state.activeSession.forEach(person => {
+                    // Find if user already exists in history
+                    let historyUser = state.history.find(h => h.id === person.id);
+                    
+                    if (historyUser) {
+                        historyUser.totalBeers += person.beers;
+                        historyUser.totalShots += person.shots;
+                        // Update name just in case they typed it differently
+                        historyUser.name = person.name; 
+                    } else {
+                        // User not in history, create new entry
+                        state.history.push({
+                            id: person.id,
+                            name: person.name,
+                            totalBeers: person.beers,
+                            totalShots: person.shots
+                        });
+                    }
+                });
+
+                // Clear active session
+                state.activeSession = [];
+                saveData();
+                renderMain();
+                alert("Seara s-a încheiat! Datele au fost salvate.");
+            }
+        }
+
+        // --- Active Session Logic ---
+
+        function addPerson(selectedId = null, selectedName = null) {
             const input = document.getElementById('nameInput');
-            const name = input.value.trim();
+            const name = selectedName || input.value.trim();
             if (!name) return;
 
+            // Check if they already exist in the active session
+            let existingInActive = state.activeSession.find(p => p.name.toLowerCase() === name.toLowerCase());
+            if (existingInActive) {
+                alert("Acest nume este deja în lista de azi.");
+                closeModal();
+                return;
+            }
+
+            // Determine ID: If picked from autocomplete, use that ID. Else generate new.
+            let newId = selectedId;
+            if (!newId) {
+                // Try to find if typed name matches history exactly
+                let matchInHistory = state.history.find(h => h.name.toLowerCase() === name.toLowerCase());
+                newId = matchInHistory ? matchInHistory.id : Date.now();
+            }
+
             const newPerson = {
-                id: Date.now(),
+                id: newId,
                 name: name,
                 beers: 0,
-                shots: 0
+                shots: 0,
+                paid: false
             };
 
-            state.people.push(newPerson);
+            state.activeSession.push(newPerson);
             saveData();
-            render();
+            renderMain();
             closeModal();
             input.value = ''; 
         }
 
         function removePerson(id) {
-            if(confirm('Ștergi pe acest bețiv?')) {
-                state.people = state.people.filter(p => p.id !== id);
+            if(confirm('Ștergi pe acest bețiv? (Nu va fi salvat în istoric pentru azi)')) {
+                state.activeSession = state.activeSession.filter(p => p.id !== id);
                 saveData();
-                render();
+                renderMain();
             }
         }
 
         function updateCount(id, type, change) {
-            const person = state.people.find(p => p.id === id);
+            const person = state.activeSession.find(p => p.id === id);
             if (!person) return;
 
             if (type === 'beers') {
@@ -416,41 +583,86 @@
             }
 
             saveData();
-            render();
+            renderMain();
         }
 
-        // --- Rendering ---
+        function togglePaid(id) {
+            const person = state.activeSession.find(p => p.id === id);
+            if (person) {
+                person.paid = !person.paid;
+                saveData();
+                renderMain();
+            }
+        }
 
-        function render() {
+        // --- Autocomplete Logic ---
+        function handleSearch() {
+            const val = document.getElementById('nameInput').value.toLowerCase();
+            const list = document.getElementById('autocompleteList');
+            list.innerHTML = '';
+            
+            // Get history users NOT currently in active session
+            const activeIds = state.activeSession.map(p => p.id);
+            let availableUsers = state.history.filter(h => !activeIds.includes(h.id));
+
+            // Filter by search text (if any)
+            if (val) {
+                availableUsers = availableUsers.filter(h => h.name.toLowerCase().includes(val));
+            }
+
+            if (availableUsers.length > 0) {
+                list.classList.add('active');
+                availableUsers.forEach(user => {
+                    const div = document.createElement('div');
+                    div.className = 'autocomplete-item';
+                    div.innerHTML = `
+                        <span class="ac-name">${escapeHtml(user.name)}</span>
+                        <span class="ac-stats">🍺 ${user.totalBeers} | 🥃 ${user.totalShots}</span>
+                    `;
+                    // When clicked, add them immediately
+                    div.onclick = () => {
+                        document.getElementById('nameInput').value = user.name;
+                        addPerson(user.id, user.name);
+                    };
+                    list.appendChild(div);
+                });
+            } else {
+                list.classList.remove('active');
+            }
+        }
+
+        // --- Rendering Main View ---
+
+        function renderMain() {
             const container = document.getElementById('list-container');
             const emptyMsg = document.getElementById('empty-msg');
             container.innerHTML = '';
 
-            if (state.people.length === 0) {
+            if (state.activeSession.length === 0) {
                 emptyMsg.style.display = 'block';
                 return;
             } else {
                 emptyMsg.style.display = 'none';
             }
 
-            state.people.forEach(person => {
+            state.activeSession.forEach(person => {
                 const totalCost = (person.beers * state.prices.beer) + (person.shots * state.prices.shot);
-                
-                // Format total nicely
                 const formattedTotal = parseFloat(totalCost.toFixed(2));
 
                 const card = document.createElement('div');
-                card.className = 'person-card';
+                card.className = `person-card ${person.paid ? 'paid' : ''}`;
                 
                 const beerClass = person.beers === 0 ? 'count-val zero' : 'count-val active';
                 const shotClass = person.shots === 0 ? 'count-val zero' : 'count-val active';
+                const checkClass = person.paid ? 'check-btn active' : 'check-btn';
 
                 card.innerHTML = `
                     <div class="card-top">
                         <div class="person-name">${escapeHtml(person.name)}</div>
-                        <div style="display:flex; align-items:center;">
+                        <div class="card-actions">
                             <div class="person-total">${formattedTotal} lei</div>
-                            <button class="delete-btn" onclick="removePerson(${person.id})">×</button>
+                            <button class="${checkClass}" onclick="togglePaid(${person.id})">✔</button>
+                            <button class="delete-btn" onclick="removePerson(${person.id})">✖</button>
                         </div>
                     </div>
                     <div class="counters-grid">
@@ -476,22 +688,63 @@
             });
         }
 
-        function escapeHtml(text) {
-            const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
-            return text.replace(/[&<>"']/g, m => map[m]);
+        // --- Rendering History View ---
+        function renderHistory() {
+            const container = document.getElementById('history-container');
+            const emptyMsg = document.getElementById('empty-history-msg');
+            container.innerHTML = '';
+
+            if (state.history.length === 0) {
+                emptyMsg.style.display = 'block';
+                return;
+            } else {
+                emptyMsg.style.display = 'none';
+            }
+
+            // Sort by most active drinker (beers + shots)
+            let sortedHistory = [...state.history].sort((a,b) => (b.totalBeers + b.totalShots) - (a.totalBeers + a.totalShots));
+
+            sortedHistory.forEach(user => {
+                const card = document.createElement('div');
+                card.className = 'history-card';
+                card.innerHTML = `
+                    <div class="person-name" style="max-width:40%;">${escapeHtml(user.name)}</div>
+                    <div class="history-stats">
+                        <span style="color:var(--beer-color)">🍺 ${user.totalBeers}</span>
+                        <span style="color:var(--shot-color)">🥃 ${user.totalShots}</span>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
         }
 
-        // --- Modal & UI ---
+        // --- Views & UI Helpers ---
+        
+        function toggleView(view) {
+            if (view === 'history') {
+                document.getElementById('main-view').style.display = 'none';
+                document.getElementById('history-view').style.display = 'block';
+                renderHistory();
+            } else {
+                document.getElementById('main-view').style.display = 'block';
+                document.getElementById('history-view').style.display = 'none';
+                renderMain();
+            }
+        }
+
         const modalOverlay = document.getElementById('modalOverlay');
         const nameInput = document.getElementById('nameInput');
 
         function openModal() {
             modalOverlay.classList.add('active');
+            nameInput.value = '';
+            handleSearch(); // Populate with history right away
             setTimeout(() => nameInput.focus(), 100);
         }
 
         function closeModal() {
             modalOverlay.classList.remove('active');
+            document.getElementById('autocompleteList').classList.remove('active');
         }
 
         nameInput.addEventListener('keypress', (e) => {
@@ -501,6 +754,11 @@
         modalOverlay.addEventListener('click', (e) => {
             if (e.target === modalOverlay) closeModal();
         });
+
+        function escapeHtml(text) {
+            const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
 
         init();
     </script>
