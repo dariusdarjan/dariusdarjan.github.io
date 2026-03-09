@@ -66,7 +66,7 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
             max-width: 600px;
         }
 
@@ -74,6 +74,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            width: 100%;
         }
 
         h1 {
@@ -83,6 +84,12 @@
             color: var(--accent);
             margin: 0;
             font-weight: 800;
+            flex: 1;
+        }
+
+        /* Center the title specifically in the history view */
+        .history-title {
+            text-align: center;
         }
 
         .header-actions {
@@ -105,6 +112,15 @@
             transition: 0.2s;
         }
         .icon-btn:active { background: var(--accent); color: black; }
+        
+        .danger-btn {
+            color: var(--danger);
+            border-color: #552222;
+        }
+        .danger-btn:active {
+            background: var(--danger);
+            color: white;
+        }
 
         .prices-row {
             display: flex;
@@ -421,10 +437,11 @@
     <div id="history-view" style="display: none;">
         <div class="app-header">
             <div class="header-top">
-                <h1>Istoric Bețivi</h1>
-                <div class="header-actions">
-                    <button class="icon-btn" onclick="toggleView('main')">🔙</button>
-                </div>
+                <button class="icon-btn" onclick="toggleView('main')" style="font-size: 1.1rem;">&#10094;</button>
+                
+                <h1 class="history-title">Istoric Bețivi</h1>
+                
+                <button class="icon-btn danger-btn" onclick="clearHistory()" title="Șterge Istoric">🗑️</button>
             </div>
         </div>
         <div id="history-container"></div>
@@ -449,7 +466,7 @@
 
     <script>
         // --- State Management ---
-        const STORAGE_KEY = 'baute_ciprienesti_v7'; // Updated for history system
+        const STORAGE_KEY = 'baute_ciprienesti_v8'; // Bumped version
         
         let state = {
             prices: { beer: 14.5, shot: 7.5 },
@@ -497,16 +514,13 @@
                 
                 // Merge activeSession into history
                 state.activeSession.forEach(person => {
-                    // Find if user already exists in history
                     let historyUser = state.history.find(h => h.id === person.id);
                     
                     if (historyUser) {
                         historyUser.totalBeers += person.beers;
                         historyUser.totalShots += person.shots;
-                        // Update name just in case they typed it differently
                         historyUser.name = person.name; 
                     } else {
-                        // User not in history, create new entry
                         state.history.push({
                             id: person.id,
                             name: person.name,
@@ -524,6 +538,18 @@
             }
         }
 
+        function clearHistory() {
+            if (state.history.length === 0) {
+                alert("Istoricul este deja gol.");
+                return;
+            }
+            if (confirm("Ești sigur că vrei să ștergi TOT istoricul permanent? Acțiunea este ireversibilă.")) {
+                state.history = [];
+                saveData();
+                renderHistory();
+            }
+        }
+
         // --- Active Session Logic ---
 
         function addPerson(selectedId = null, selectedName = null) {
@@ -531,7 +557,6 @@
             const name = selectedName || input.value.trim();
             if (!name) return;
 
-            // Check if they already exist in the active session
             let existingInActive = state.activeSession.find(p => p.name.toLowerCase() === name.toLowerCase());
             if (existingInActive) {
                 alert("Acest nume este deja în lista de azi.");
@@ -539,10 +564,8 @@
                 return;
             }
 
-            // Determine ID: If picked from autocomplete, use that ID. Else generate new.
             let newId = selectedId;
             if (!newId) {
-                // Try to find if typed name matches history exactly
                 let matchInHistory = state.history.find(h => h.name.toLowerCase() === name.toLowerCase());
                 newId = matchInHistory ? matchInHistory.id : Date.now();
             }
@@ -601,11 +624,9 @@
             const list = document.getElementById('autocompleteList');
             list.innerHTML = '';
             
-            // Get history users NOT currently in active session
             const activeIds = state.activeSession.map(p => p.id);
             let availableUsers = state.history.filter(h => !activeIds.includes(h.id));
 
-            // Filter by search text (if any)
             if (val) {
                 availableUsers = availableUsers.filter(h => h.name.toLowerCase().includes(val));
             }
@@ -619,7 +640,6 @@
                         <span class="ac-name">${escapeHtml(user.name)}</span>
                         <span class="ac-stats">🍺 ${user.totalBeers} | 🥃 ${user.totalShots}</span>
                     `;
-                    // When clicked, add them immediately
                     div.onclick = () => {
                         document.getElementById('nameInput').value = user.name;
                         addPerson(user.id, user.name);
