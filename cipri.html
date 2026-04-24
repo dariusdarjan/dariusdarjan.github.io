@@ -166,6 +166,50 @@
             gap: 8px;
         }
 
+        /* Summary Container */
+        #summary-container {
+            width: 100%;
+            max-width: 600px;
+            padding: 0 15px 15px 15px;
+        }
+
+        .summary-card {
+            background-color: #222;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            border: 2px dashed var(--accent);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95rem;
+            color: var(--text-main);
+        }
+
+        .summary-divider {
+            height: 1px;
+            background: #444;
+            margin: 5px 0;
+        }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: var(--total-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 5px rgba(255, 214, 0, 0.2);
+        }
+
         /* Card */
         .person-card {
             background-color: var(--card-bg);
@@ -427,6 +471,9 @@
         </div>
 
         <div id="list-container"></div>
+        
+        <div id="summary-container" style="display: none;"></div>
+        
         <div id="empty-msg" class="empty-state" style="display: none;">
             Nimeni nu bea încă...<br>Apasă + pentru a adăuga
         </div>
@@ -438,9 +485,7 @@
         <div class="app-header">
             <div class="header-top">
                 <button class="icon-btn" onclick="toggleView('main')" style="font-size: 1.1rem;">&#10094;</button>
-                
                 <h1 class="history-title">Istoric Bețivi</h1>
-                
                 <button class="icon-btn danger-btn" onclick="clearHistory()" title="Șterge Istoric">🗑️</button>
             </div>
         </div>
@@ -466,12 +511,13 @@
 
     <script>
         // --- State Management ---
-        const STORAGE_KEY = 'baute_ciprienesti_v8'; // Bumped version
+        // CHEIA A RAMAS ACEEASI - CACHE-UL ESTE INTACT!
+        const STORAGE_KEY = 'baute_ciprienesti_v8'; 
         
         let state = {
             prices: { beer: 14.5, shot: 7.5 },
-            activeSession: [], // List for current night
-            history: []        // All-time totals: {id, name, totalBeers, totalShots}
+            activeSession: [], 
+            history: []        
         };
 
         function init() {
@@ -503,8 +549,6 @@
             renderMain();
         }
 
-        // --- End of Night & History Logic ---
-        
         function endNight() {
             if (state.activeSession.length === 0) {
                 alert("Nu e nimeni în listă momentan.");
@@ -512,7 +556,6 @@
             }
             if (confirm("Ești sigur că vrei să închei seara? Datele vor fi salvate în istoric.")) {
                 
-                // Merge activeSession into history
                 state.activeSession.forEach(person => {
                     let historyUser = state.history.find(h => h.id === person.id);
                     
@@ -530,7 +573,6 @@
                     }
                 });
 
-                // Clear active session
                 state.activeSession = [];
                 saveData();
                 renderMain();
@@ -549,8 +591,6 @@
                 renderHistory();
             }
         }
-
-        // --- Active Session Logic ---
 
         function addPerson(selectedId = null, selectedName = null) {
             const input = document.getElementById('nameInput');
@@ -618,7 +658,6 @@
             }
         }
 
-        // --- Autocomplete Logic ---
         function handleSearch() {
             const val = document.getElementById('nameInput').value.toLowerCase();
             const list = document.getElementById('autocompleteList');
@@ -655,17 +694,27 @@
 
         function renderMain() {
             const container = document.getElementById('list-container');
+            const summaryContainer = document.getElementById('summary-container');
             const emptyMsg = document.getElementById('empty-msg');
             container.innerHTML = '';
 
             if (state.activeSession.length === 0) {
                 emptyMsg.style.display = 'block';
+                summaryContainer.style.display = 'none';
                 return;
             } else {
                 emptyMsg.style.display = 'none';
+                summaryContainer.style.display = 'block';
             }
 
+            let totalBeersCount = 0;
+            let totalShotsCount = 0;
+
             state.activeSession.forEach(person => {
+                // Tracking totals for summary
+                totalBeersCount += person.beers;
+                totalShotsCount += person.shots;
+
                 const totalCost = (person.beers * state.prices.beer) + (person.shots * state.prices.shot);
                 const formattedTotal = parseFloat(totalCost.toFixed(2));
 
@@ -706,6 +755,29 @@
                 `;
                 container.appendChild(card);
             });
+
+            // Calculate and render Summary Totals
+            const totalBeersCost = totalBeersCount * state.prices.beer;
+            const totalShotsCost = totalShotsCount * state.prices.shot;
+            const grandTotalCost = totalBeersCost + totalShotsCost;
+
+            summaryContainer.innerHTML = `
+                <div class="summary-card">
+                    <div class="summary-row">
+                        <span><span class="icon-beer">🍺</span> Total Beri: <strong>${totalBeersCount}</strong></span>
+                        <span>${parseFloat(totalBeersCost.toFixed(2))} lei</span>
+                    </div>
+                    <div class="summary-row">
+                        <span><span class="icon-shot">🥃</span> Total Shoturi: <strong>${totalShotsCount}</strong></span>
+                        <span>${parseFloat(totalShotsCost.toFixed(2))} lei</span>
+                    </div>
+                    <div class="summary-divider"></div>
+                    <div class="summary-total">
+                        <span>💰 Nota de plată:</span>
+                        <span>${parseFloat(grandTotalCost.toFixed(2))} lei</span>
+                    </div>
+                </div>
+            `;
         }
 
         // --- Rendering History View ---
@@ -721,7 +793,6 @@
                 emptyMsg.style.display = 'none';
             }
 
-            // Sort by most active drinker (beers + shots)
             let sortedHistory = [...state.history].sort((a,b) => (b.totalBeers + b.totalShots) - (a.totalBeers + a.totalShots));
 
             sortedHistory.forEach(user => {
@@ -758,7 +829,7 @@
         function openModal() {
             modalOverlay.classList.add('active');
             nameInput.value = '';
-            handleSearch(); // Populate with history right away
+            handleSearch(); 
             setTimeout(() => nameInput.focus(), 100);
         }
 
